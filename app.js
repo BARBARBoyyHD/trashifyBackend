@@ -41,8 +41,12 @@ app.post("/api/createBlogs", require("./routes/blogsRoutes"));
 
 // delete
 app.delete("/api/deleteCookies",require('./routes/deleteCookies')) // Logout
-app.delete("/api/deleteBlogs",require('./routes/deleteBlogsRoutes'))
+app.delete("/api/deleteBlogs/:blogs_id",require('./routes/deleteBlogsRoutes'))
 
+
+// put
+
+app.put("/api/updateBlogs/:blogs_id",require('./routes/updateBlogsRoutes'))
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
