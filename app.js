@@ -32,6 +32,10 @@ app.get("/api/test", authUsers, (req, res) => {
 });
 //get
 app.get("/api/authUser", require("./routes/authRoutes"));
+app.get("/api/getAllBlogs",require("./routes/getAllBlogsRoutes"))
+app.get("/api/getSingleBlogs/:blogs_id",require("./routes/getSingleBlogs"))
+app.get("/api/getAllBlogsUserId/:user_id",require("./routes/getAllBlogsUserIdRoutes"))
+app.get("/api/userProfile/:id",require("./routes/userProfileRoutes"))
 
 //post 
 app.post("/api/login", require("./routes/loginRoutes"));
@@ -45,7 +49,6 @@ app.delete("/api/deleteBlogs/:blogs_id",require('./routes/deleteBlogsRoutes'))
 
 
 // put
-
 app.put("/api/updateBlogs/:blogs_id",require('./routes/updateBlogsRoutes'))
 
 app.listen(port, () => {

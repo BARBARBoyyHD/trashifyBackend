@@ -3,14 +3,14 @@ const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const generateAccessToken = (username) => {
-  return jwt.sign({ user: username }, process.env.ACCESS_TOKEN_SECRET, {
+const generateAccessToken = (userId, username) => {
+  return jwt.sign({ userId, user: username }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "30m",
   });
 };
 
-const generateRefreshToken = (username) => {
-  return jwt.sign({ user: username }, process.env.REFRESH_TOKEN_SECRET, {
+const generateRefreshToken = (userId, username) => {
+  return jwt.sign({ userId, user: username }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
   });
 };
@@ -48,23 +48,29 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Generate access and refresh tokens
-    const accessToken = generateAccessToken(username);
-    const refreshToken = generateRefreshToken(username);
+    // Generate access and refresh tokens with user ID
+    const accessToken = generateAccessToken(user.id, username);
+    const refreshToken = generateRefreshToken(user.id, username);
 
     // Set cookies for access and refresh tokens
     res.status(200)
-    .cookie("accessToken", accessToken, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true, // Set secure to true in production
-      maxAge: 3000 * 1000, // 15 seconds in milliseconds
-    })
-    .cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true, // Set secure to true in production
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true, // Set secure to true in production
+        maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true, // Set secure to true in production
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      })
+      .cookie("userId", user.id, { // Send user_id as a cookie
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true, // Set secure to true in production
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     });
 
     // Send the response
@@ -72,7 +78,8 @@ exports.login = async (req, res) => {
       message: "Login successful",
       accessToken: accessToken,
       refreshToken: refreshToken,
-    });
+      user_Id: user.id // Use user.id to get the user's ID from the database
+  });
   } catch (error) {
     console.error(error);
     res.status(500).json({
