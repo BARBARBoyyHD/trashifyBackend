@@ -2,7 +2,7 @@ const db = require("../db")
 
 exports.getProfile = async (req,res)=>{
     try {
-        const {id} = req.params
+        const id = req.cookies["userId"]
 
         const getProfileQuery = "SELECT username,email,birthday FROM users WHERE id = ?"
         const [result] = await db.query(getProfileQuery,[id])

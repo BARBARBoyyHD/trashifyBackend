@@ -2,7 +2,7 @@ const db = require("../db")
 
 exports.getAllBlogsUserID = async (req,res)=>{
     try {
-        const {user_id} = req.params
+        const user_id = req.cookies["userId"]
 
         const getAllBlogsUserIDQuery = "SELECT * FROM list_of_blogs WHERE user_id = ?"
         const[result] = await db.query(getAllBlogsUserIDQuery,[user_id])

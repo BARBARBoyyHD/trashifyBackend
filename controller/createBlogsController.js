@@ -11,7 +11,20 @@ exports.create = async (req, res) => {
     // Check if user exists
     const findUser = "SELECT * FROM users WHERE id = ?";
     const [userResult] = await db.query(findUser, [user_id]);
-    
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Validate image format
+    const validFormats = ["image/jpeg", "image/png", "image/jpg"];
+    if (!validFormats.includes(req.file.mimetype)) {
+      return res.status(400).json({
+        message: "Invalid image format. Only JPG and PNG are allowed.",
+      });
+    }
+
+    const image = req.file.filename;
 
     // If no user is found, return an error
     if (userResult.length === 0) {
@@ -22,7 +35,7 @@ exports.create = async (req, res) => {
 
     // Proceed to insert the blog post
     const query =
-      "INSERT INTO list_of_blogs (user_id, title, subject, body, author_name, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO list_of_blogs (user_id, title, subject, body, author_name, created_at,image) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const [result] = await db.query(query, [
       user_id,
       title,
@@ -30,6 +43,7 @@ exports.create = async (req, res) => {
       body,
       author_name,
       created_at,
+      image
     ]);
 
     // Check if the insert was successful

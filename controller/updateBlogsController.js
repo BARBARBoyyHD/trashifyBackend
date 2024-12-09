@@ -1,10 +1,10 @@
 const db = require("../db");
-
+const moment = require("moment")
 exports.update = async (req, res) => {
     try {
       const { blogs_id } = req.params;
       const { title, subject, body } = req.body;
-  
+      const created_at = moment().format("LL")
       // Validate request body
       if (!title || !subject || !body) {
         return res.status(400).json({
@@ -21,11 +21,12 @@ exports.update = async (req, res) => {
       }
   
       const updateBlogs =
-        "UPDATE list_of_blogs SET title = ?, subject = ?, body = ? WHERE blogs_id = ?";
+        "UPDATE list_of_blogs SET title = ?, subject = ?, body = ?, created_at = ? WHERE blogs_id = ?";
       const [result] = await db.query(updateBlogs, [
         title,
         subject,
         body,
+        created_at,
         blogs_id,
       ]);
   
