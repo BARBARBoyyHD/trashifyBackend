@@ -3,6 +3,6 @@ const route = express.Router()
 const userProfileController = require("../controller/userProfileController")
 const authUser = require("../middleware/authUser")
 
-route.get("/api/userProfile/:id",userProfileController.getProfile)
+route.get("/api/userProfile/:id",userProfileController.getProfile,authUser)
 
 module.exports = route

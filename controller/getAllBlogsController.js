@@ -11,7 +11,10 @@ exports.getBlogs = async (req,res)=>{
             })
         }
         else{
-            return res.status(200).json(result)
+            return res.status(200).json({
+                type:"success",
+                data:result
+            })
         }
 
 

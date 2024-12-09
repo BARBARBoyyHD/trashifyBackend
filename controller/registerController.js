@@ -2,6 +2,7 @@ require("dotenv").config();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const moment = require("moment")
 
 // Function to generate a refresh token
 const generateRefreshToken = (username) => {
@@ -13,7 +14,7 @@ const generateRefreshToken = (username) => {
 exports.register = async (req, res) => {
   try {
     const { username, password, email, date } = req.body;
-
+    const created_at = moment().format('LL');
     // Validate that all fields are filled
     if (!username || !password || !email || !date) {
       return res.status(400).json({
@@ -58,14 +59,15 @@ exports.register = async (req, res) => {
 
     // Insert the new user into the database
     const query =
-      "INSERT INTO users(username, password, email, birthday, refresh_token, refresh_token_expired) VALUES(?, ?, ?, ?, ?, ?)";
+      "INSERT INTO users(username, password, email, birthday, refresh_token, refresh_token_expired,created_at) VALUES(?, ?, ?, ?, ?, ?, ?)";
     const [result] = await db.query(query, [
       username,
       hashedPassword,
       email,
       date,
       refreshToken,
-      refreshTokenExpiration, // Save the expiration date
+      refreshTokenExpiration,
+      created_at 
     ]);
 
     // Check if the insert was successful

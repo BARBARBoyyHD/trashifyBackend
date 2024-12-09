@@ -10,9 +10,13 @@ const generateAccessToken = (userId, username) => {
 };
 
 const generateRefreshToken = (userId, username) => {
-  return jwt.sign({ userId, user: username }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    { userId, user: username },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 };
 
 exports.login = async (req, res) => {
@@ -49,11 +53,12 @@ exports.login = async (req, res) => {
     }
 
     // Generate access and refresh tokens with user ID
-    const accessToken = generateAccessToken(user.id, username);
-    const refreshToken = generateRefreshToken(user.id, username);
+    const accessToken = generateAccessToken(user.id, user.username);
+    const refreshToken = generateRefreshToken(user.id, user.username);
 
     // Set cookies for access and refresh tokens
-    res.status(200)
+    res
+      .status(200)
       .cookie("accessToken", accessToken, {
         httpOnly: true,
         sameSite: "strict",
@@ -66,20 +71,28 @@ exports.login = async (req, res) => {
         secure: true, // Set secure to true in production
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
       })
-      .cookie("userId", user.id, { // Send user_id as a cookie
+      .cookie("userId", user.id, {
+        // Send user_id as a cookie
         httpOnly: true,
         sameSite: "strict",
         secure: true, // Set secure to true in production
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    });
+      })
+      .cookie("username", user.username, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true, // Set secure to true in production
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+      });
 
     // Send the response
     res.status(200).json({
       message: "Login successful",
       accessToken: accessToken,
       refreshToken: refreshToken,
-      user_Id: user.id // Use user.id to get the user's ID from the database
-  });
+      user_Id: user.id, // Use user.id to get the user's ID from the database
+      username: user.username,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({

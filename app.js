@@ -36,6 +36,7 @@ app.get("/api/getAllBlogs",require("./routes/getAllBlogsRoutes"))
 app.get("/api/getSingleBlogs/:blogs_id",require("./routes/getSingleBlogs"))
 app.get("/api/getAllBlogsUserId/:user_id",require("./routes/getAllBlogsUserIdRoutes"))
 app.get("/api/userProfile/:id",require("./routes/userProfileRoutes"))
+app.get("/api/user/logout",require("./routes/userLogoutRoutes"))
 
 //post 
 app.post("/api/login", require("./routes/loginRoutes"));
