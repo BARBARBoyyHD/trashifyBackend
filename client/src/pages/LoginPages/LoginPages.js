@@ -11,7 +11,7 @@ const LoginPages = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex flex-col justify-center items-center mt-[80px] px-4">
+      <main className="flex-grow flex flex-col justify-center items-center mt-[50px] px-4">
        <LoginComponent/>
       </main>
     </div>

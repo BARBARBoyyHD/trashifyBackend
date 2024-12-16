@@ -4,7 +4,7 @@ import { IoPersonOutline } from "react-icons/io5";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"; // Importing menu and close icons
 import TrashifyLogo from "../../assets/TrashifyLogo.png";
 
-const NavbarLandingPage = () => {
+const NavbarContent = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // For toggling the mobile menu
 
@@ -76,17 +76,20 @@ const NavbarLandingPage = () => {
           >
             Kontak Kami
           </Link>
+          <Link
+            to="/pages/blogs"
+            className="text-gray-800 hover:text-green-500 transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Blogs
+          </Link>
         </div>
 
         {/* Account Section for Desktop */}
         <div className="hidden lg:flex items-center space-x-2">
-          <IoPersonOutline className="text-xl text-gray-800" />
-          <Link
-            to="/pages/login"
-            className="text-gray-800 hover:text-green-500 transition-colors"
-          >
-            Masuk/Daftar
-          </Link>
+          <button>
+            <IoPersonOutline className="text-xl text-gray-800" />
+          </button>
         </div>
       </div>
 
@@ -119,14 +122,21 @@ const NavbarLandingPage = () => {
             >
               Kontak Kami
             </Link>
-
-            {/* Masuk/Daftar in Mobile Menu */}
             <Link
-              to="/pages/login"
+              to="/pages/blogs"
               className="text-gray-800 hover:text-green-500 transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
-              Masuk/Daftar
+              Blogs
+            </Link>
+
+            {/* Masuk/Daftar in Mobile Menu */}
+            <Link
+              to="/pages/profile"
+              className="text-gray-800 hover:text-green-500 transition-colors"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Profile
             </Link>
           </div>
         </div>
@@ -135,4 +145,4 @@ const NavbarLandingPage = () => {
   );
 };
 
-export default NavbarLandingPage;
+export default NavbarContent;
