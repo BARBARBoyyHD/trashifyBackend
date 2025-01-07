@@ -14,6 +14,7 @@ import AnorganicPages from "./pages/Waste/AnorganicPages";
 import OrganicPages from "./pages/Waste/OrganicPages";
 import TPALocationPages from "./pages/Waste/TPALocationPages";
 import WasteManagementPages from "./pages/Waste/WasteManagementPages";
+import GalleryPages from "./pages/Gallery/GalleryPages";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
           <Route path="/pages/waste/organic" element={<OrganicPages/>}/>
           <Route path="/pages/waste/anorganic" element={<AnorganicPages/>}/>
           <Route path="/pages/waste/tpa" element={<TPALocationPages/>}/>
+          <Route path="/pages/pages/wastemanagement" element={<WasteManagementPages/>}/>
+          <Route path="/pages/waste/gallery" element={<GalleryPages/>}/>
         </Routes>
       </Router>
     </Provider>
