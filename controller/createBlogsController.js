@@ -5,7 +5,7 @@ exports.create = async (req, res) => {
   try {
     const { title, subject, body } = req.body;
     const created_at = moment().format("LL");
-    const user_id = req.cookies["userId"]; // Access userId directly from cookies
+    const user_id = req.cookies["userId"]; 
     const author_name = req.cookies["username"]
 
     // Check if user exists

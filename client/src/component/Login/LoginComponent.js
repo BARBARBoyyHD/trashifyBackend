@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LogoNoText from "../../assets/LogoNoText.png";
 import { login } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
-import LoadingSpinner from "../Loading/LoadingSpinner"; // Assuming this path is correct
+import LoadingSpinner from "../Loading/LoadingSpinner"; 
 import { useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa"; 
 

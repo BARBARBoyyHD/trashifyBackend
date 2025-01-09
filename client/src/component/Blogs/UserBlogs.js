@@ -1,66 +1,52 @@
 import React, { useEffect } from "react";
-import { getBlogs } from "../../redux";
 import { useDispatch, useSelector } from "react-redux";
+import { userBlogs } from "../../redux";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { FaPlus } from "react-icons/fa";
-const BlogsContent = () => {
-  const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.getBlogs);
-  const navigate = useNavigate()
-  // Fix applied here:
-  const blogs = data?.data || [];
 
+const UserBlogs = () => {
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.userBlogs);
+  const navigate = useNavigate
   const buttonBlogs = ()=>{
     navigate("/pages/create/blogs")
   }
+  const blogs = data?.data || [];
 
   useEffect(() => {
-    dispatch(getBlogs());
+    dispatch(userBlogs());
   }, [dispatch]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg font-bold text-red-500">Error: {error}</p>
-      </div>
+      <p className="text-center text-red-500">Error fetching blogs: {error}</p>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
-      <div className="flex justify-between w-full">
-        <div className="flex justify-center items-center text-center">
-          <h1 className="text-4xl font-bold mb-8 text-emerald-600">
-            Blogs Content
-          </h1>
-        </div>
-        <div >
-          <button onClick={buttonBlogs} className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce">
-            <FaPlus />
-          </button>
-        </div>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold text-center mb-8">User Blogs</h1>
+      <div className="mb-2">
+        <button
+          onClick={buttonBlogs}
+          className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce"
+        >
+          <FaPlus />
+        </button>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto">
         {blogs.length > 0 ? (
-          blogs.map((item, index) => (
+          blogs.map((item) => (
             <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl hover:animate-bounce transition-all duration-300"
+              key={item.blogs_id}
+              className="bg-white p-8 rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300"
             >
-              <Link
-                item_id={item.blogs_id}
-                to={`/pages/blogs/${item.blogs_id}`}
-              >
+              <Link to={`/pages/blogs/${item.blogs_id}`}>
                 <h2 className="text-2xl font-semibold mb-2 text-gray-800">
                   {item.title}
                 </h2>
@@ -96,4 +82,4 @@ const BlogsContent = () => {
   );
 };
 
-export default BlogsContent;
+export default UserBlogs;

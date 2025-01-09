@@ -40,7 +40,7 @@ app.use(
 );
 app.use(cookieParser());
 app.set("trust proxy", 1);
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const port = process.env.PORT;
 
 //get
@@ -48,8 +48,8 @@ app.get("/api/news/waste/management",require("./routes/getWasteNews"))
 app.get("/api/authUser", require("./routes/authRoutes"));
 app.get("/api/getAllBlogs",authUsers,refresh_token,require("./routes/getAllBlogsRoutes"))
 app.get("/api/getSingleBlogs/:blogs_id",authUsers,refresh_token,require("./routes/getSingleBlogs"))
-app.get("/api/getAllBlogsUserId/:user_id",authUsers,refresh_token,require("./routes/getAllBlogsUserIdRoutes"))
-app.get("/api/userProfile/:id",authUsers,refresh_token,require("./routes/userProfileRoutes"))
+app.get("/api/getAllBlogsUserID",authUsers,refresh_token,require("./routes/getAllBlogsUserIdRoutes"))
+app.get("/api/userProfile",authUsers,refresh_token,require("./routes/userProfileRoutes"))
 app.get("/api/user/logout",require("./routes/userLogoutRoutes"))
 
 //post 
