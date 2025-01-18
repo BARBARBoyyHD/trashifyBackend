@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 import { FaPlus } from "react-icons/fa";
+
 const BlogsContent = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.getBlogs);
-  const navigate = useNavigate()
-  // Fix applied here:
+  const navigate = useNavigate();
   const blogs = data?.data || [];
 
-  const buttonBlogs = ()=>{
-    navigate("/pages/create/blogs")
-  }
+  const buttonBlogs = () => {
+    navigate("/pages/create/blogs");
+  };
 
   useEffect(() => {
     dispatch(getBlogs());
@@ -43,8 +43,11 @@ const BlogsContent = () => {
             Blogs Content
           </h1>
         </div>
-        <div >
-          <button onClick={buttonBlogs} className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce">
+        <div>
+          <button
+            onClick={buttonBlogs}
+            className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce"
+          >
             <FaPlus />
           </button>
         </div>
@@ -57,13 +60,12 @@ const BlogsContent = () => {
               key={index}
               className="bg-white p-6 rounded-lg shadow-lg border border-gray-200 hover:shadow-2xl hover:animate-bounce transition-all duration-300"
             >
-              <Link
-                item_id={item.blogs_id}
-                to={`/pages/blogs/${item.blogs_id}`}
-              >
-                <h2 className="text-2xl font-semibold mb-2 text-gray-800">
-                  {item.title}
-                </h2>
+              <div>
+                <Link to={`/pages/blogs/${item.blogs_id}`}>
+                  <h2 className="text-2xl font-semibold mb-2 text-gray-800">
+                    {item.title}
+                  </h2>
+                </Link>
                 <p className="text-sm text-gray-500 mb-4">
                   By: {item.author_name}
                 </p>
@@ -83,7 +85,7 @@ const BlogsContent = () => {
                   <p>Posted: {item.created_at}</p>
                   <p>Blog ID: {item.blogs_id}</p>
                 </div>
-              </Link>
+              </div>
             </div>
           ))
         ) : (

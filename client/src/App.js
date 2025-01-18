@@ -16,6 +16,7 @@ import TPALocationPages from "./pages/Waste/TPALocationPages";
 import WasteManagementPages from "./pages/Waste/WasteManagementPages";
 import GalleryPages from "./pages/Gallery/GalleryPages";
 import UserProfilePages from "./pages/Blogs/UserProfilePages";
+import B3WastePages from "./pages/Waste/B3WastePages";
 
 function App() {
   return (
@@ -30,9 +31,10 @@ function App() {
           <Route path="/pages/profile" element={<ProfileUserPages/>}/>
           <Route path="/pages/create/blogs" element={<CreateBlogsPages/>}/>
           <Route path="/pages/blogs/:id" element={<ReadSingleBlogsPages/>} />
-          <Route path="pages/blogs/update/:id" element={<UpdateBlogsPages/>}/>
+          <Route path="/pages/blogs/update/:blogs_id" element={<UpdateBlogsPages/>}/>
           <Route path="/pages/waste/organic" element={<OrganicPages/>}/>
           <Route path="/pages/waste/anorganic" element={<AnorganicPages/>}/>
+          <Route path="/pages/waste/b3waste" element={<B3WastePages/>}/>
           <Route path="/pages/waste/tpa" element={<TPALocationPages/>}/>
           <Route path="/pages/pages/wastemanagement" element={<WasteManagementPages/>}/>
           <Route path="/pages/waste/gallery" element={<GalleryPages/>}/>

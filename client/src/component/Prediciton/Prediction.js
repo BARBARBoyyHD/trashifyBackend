@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GoPlus } from "react-icons/go";
 import LoadingSpinner from "../Loading/LoadingSpinner";
 
@@ -9,6 +9,9 @@ const Prediction = () => {
   const [probability, setProbability] = useState(0);
   const [loading, setLoading] = useState(false);
   const resize = 128; // Resize dimensions for the model
+
+  // Use a ref to safely reference the image element
+  const imageRef = useRef(null);
 
   // Load the TFLite model from the public folder
   const loadModel = async () => {
@@ -58,7 +61,12 @@ const Prediction = () => {
       setLoading(true); // Show spinner immediately
       console.log("Prediction started... Spinner should appear!");
 
-      const imgElement = document.getElementById("imagePreview");
+      // Use the ref to access the image element
+      const imgElement = imageRef.current;
+      if (!imgElement) {
+        throw new Error("Image element not found");
+      }
+
       const inputTensor = await preprocessImage(imgElement);
       if (!inputTensor) {
         setLoading(false);
@@ -108,19 +116,19 @@ const Prediction = () => {
 
   return (
     <div className="text-center p-6 bg-gradient-to-r rounded-xl max-w-lg mx-auto">
-      <h1 className="text-4xl font-bold  mb-8 text-white">
+      <h1 className="text-4xl font-bold mb-8 text-white">
         Trash Classification
       </h1>
 
       {/* Image Preview Frame */}
       <div className="relative w-full h-80 mb-6 border border-dashed border-black rounded-lg overflow-hidden shadow-lg">
         {!imageSrc ? (
-          <div className="w-full h-full flex items-center justify-center  text-gray-600 font-semibold">
+          <div className="w-full h-full flex items-center justify-center text-gray-600 font-semibold">
             <GoPlus />
           </div>
         ) : (
           <img
-            id="imagePreview"
+            ref={imageRef} // Use the ref here
             src={imageSrc}
             alt="Input Preview"
             className="w-full h-full object-cover"
@@ -162,7 +170,7 @@ const Prediction = () => {
       </div>
 
       {/* Prediction Results */}
-      <div className=" mt-3 relative w-full h-36 mb-6 rounded-lg overflow-hidden border border-black ">
+      <div className="mt-3 relative w-full h-36 mb-6 rounded-lg overflow-hidden border border-black">
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70">
             <LoadingSpinner />
@@ -174,7 +182,9 @@ const Prediction = () => {
             </p>
           </div>
         ) : (
-          <p className="text-center flex justify-center items-center">No Prediction Yet</p>
+          <p className="text-center flex justify-center items-center">
+            No Prediction Yet
+          </p>
         )}
       </div>
     </div>

@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         sameSite: "strict",
         secure: true, // Set secure to true in production
-        maxAge: 30 * 60 * 1000, // 30 minutes in milliseconds
+        maxAge: 60 * 60 * 1000, // 30 minutes in milliseconds
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,

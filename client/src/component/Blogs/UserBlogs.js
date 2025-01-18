@@ -3,20 +3,48 @@ import { useDispatch, useSelector } from "react-redux";
 import { userBlogs } from "../../redux";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../Loading/LoadingSpinner";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import axios from "axios";
 
 const UserBlogs = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.userBlogs);
-  const navigate = useNavigate
-  const buttonBlogs = ()=>{
-    navigate("/pages/create/blogs")
-  }
+  const navigate = useNavigate();
   const blogs = data?.data || [];
 
   useEffect(() => {
     dispatch(userBlogs());
   }, [dispatch]);
+
+  const handleDelete = async (blogs_id) => {
+    try {
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this blog?"
+      );
+      if (!confirmed) return;
+
+      const response = await axios.delete(
+        `http://localhost:5000/api/deleteBlogs/${blogs_id}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        alert(response.data.message);
+        dispatch(userBlogs()); // Refresh the blog list
+      } else {
+        throw new Error("Failed to delete blog");
+      }
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      alert(error.response?.data?.message || "Failed to delete blog");
+    }
+  };
+
+  const handleEdit = (blogs_id) => {
+    navigate(`/pages/blogs/update/${blogs_id}`);
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -33,7 +61,7 @@ const UserBlogs = () => {
       <h1 className="text-3xl font-bold text-center mb-8">User Blogs</h1>
       <div className="mb-2">
         <button
-          onClick={buttonBlogs}
+          onClick={() => navigate("/pages/create/blogs")}
           className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce"
         >
           <FaPlus />
@@ -50,7 +78,7 @@ const UserBlogs = () => {
                 <h2 className="text-2xl font-semibold mb-2 text-gray-800">
                   {item.title}
                 </h2>
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-sm text-purple-500 mb-4">
                   By: {item.author_name}
                 </p>
                 {item.image ? (
@@ -70,6 +98,20 @@ const UserBlogs = () => {
                   <p>Blog ID: {item.blogs_id}</p>
                 </div>
               </Link>
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  onClick={() => handleEdit(item.blogs_id)}
+                  className="p-2 text-blue-500 hover:text-blue-700"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  onClick={() => handleDelete(item.blogs_id)}
+                  className="p-2 text-red-500 hover:text-red-700"
+                >
+                  <FaTrash />
+                </button>
+              </div>
             </div>
           ))
         ) : (
