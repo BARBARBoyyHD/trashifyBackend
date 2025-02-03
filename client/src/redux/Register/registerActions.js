@@ -33,7 +33,6 @@ export const register = (data,navigate) => {
     axios.post("http://localhost:5000/api/register", data,{withCredentials: true})
       .then((response) => {
         dispatch(registerSuccess(response.data));
-        console.log(response.data);
         navigate("/pages/login")
       })
       .catch((error) => { 

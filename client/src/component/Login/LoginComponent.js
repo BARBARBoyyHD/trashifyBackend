@@ -1,10 +1,9 @@
 import React, { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import LogoNoText from "../../assets/LogoNoText.png";
 import { login } from "../../redux";
-import { useDispatch, useSelector } from "react-redux";
-import LoadingSpinner from "../Loading/LoadingSpinner"; 
-import { useNavigate } from "react-router-dom";
-import { FaSpinner } from "react-icons/fa"; 
 
 const LoginComponent = () => {
   const navigate = useNavigate();

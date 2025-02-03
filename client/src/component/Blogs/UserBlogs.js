@@ -52,7 +52,17 @@ const UserBlogs = () => {
 
   if (error) {
     return (
-      <p className="text-center text-red-500">Error fetching blogs: {error}</p>
+      <div className="flex gap-2">
+        <p className="text-center text-black font-bold">
+         You haven't created any blogs
+        </p>
+        <button
+          onClick={() => navigate("/pages/create/blogs")}
+          className="border p-4 rounded-[8px] text-white bg-emerald-600 hover:bg-emerald-500 hover:animate-bounce"
+        >
+          <FaPlus />
+        </button>
+      </div>
     );
   }
 
@@ -68,7 +78,13 @@ const UserBlogs = () => {
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto">
-        {blogs.length > 0 ? (
+        {loading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <p className="text-center text-red-500">
+            Error fetching blogs: {error.message || "Something went wrong"}
+          </p>
+        ) : blogs.length > 0 ? (
           blogs.map((item) => (
             <div
               key={item.blogs_id}
@@ -116,7 +132,7 @@ const UserBlogs = () => {
           ))
         ) : (
           <p className="text-gray-600 text-center w-full">
-            No blogs available.
+            You haven't created any blogs.
           </p>
         )}
       </div>

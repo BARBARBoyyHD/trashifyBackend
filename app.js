@@ -45,7 +45,11 @@ const port = process.env.PORT;
 
 //get
 app.get("/api/news/waste/management",require("./routes/getWasteNews"))
-app.get("/api/authUser", require("./routes/authRoutes"));
+app.get("/api/authUser", authUsers,(req,res)=>{
+  res.status(200).json({
+    message:"Access Passed"
+  })
+});
 app.get("/api/getAllBlogs",authUsers,refresh_token,require("./routes/getAllBlogsRoutes"))
 app.get("/api/getSingleBlogs/:blogs_id",authUsers,refresh_token,require("./routes/getSingleBlogs"))
 app.get("/api/getAllBlogsUserID",authUsers,refresh_token,require("./routes/getAllBlogsUserIdRoutes"))
@@ -59,7 +63,7 @@ app.post("/api/refreshToken", require("./routes/refreshRoutes"));
 app.post("/api/createBlogs",upload.single("image"), authUsers,refresh_token,require("./routes/blogsRoutes"));
 
 // delete
-app.delete("/api/deleteCookies",require('./routes/deleteCookies')) // Logout
+app.get("/api/deleteCookies",require('./routes/deleteCookies')) // Logout
 app.delete("/api/deleteBlogs/:blogs_id",authUsers,refresh_token,require('./routes/deleteBlogsRoutes'))
 
 // put

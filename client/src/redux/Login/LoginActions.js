@@ -28,7 +28,6 @@ export const login = (data, callback) => {
       .post("http://localhost:5000/api/login", data, { withCredentials: true })
       .then((response) => {
         dispatch(loginSuccess(response.data));
-        console.log(response.data);
         if (callback) {
           callback(response.status); // Pass response status to the callback
         }

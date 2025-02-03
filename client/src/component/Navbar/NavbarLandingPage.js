@@ -64,18 +64,6 @@ const NavbarLandingPage = () => {
           >
             Beranda
           </Link>
-          <Link
-            to="/about"
-            className="text-gray-800 hover:text-green-500 transition-colors"
-          >
-            Tentang Kami
-          </Link>
-          <Link
-            to="/contact"
-            className="text-gray-800 hover:text-green-500 transition-colors"
-          >
-            Kontak Kami
-          </Link>
         </div>
 
         {/* Account Section for Desktop */}
@@ -104,20 +92,6 @@ const NavbarLandingPage = () => {
               onClick={() => setIsMenuOpen(false)} // Close menu after clicking a link
             >
               Beranda
-            </Link>
-            <Link
-              to="/about"
-              className="text-gray-800 hover:text-green-500 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tentang Kami
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-800 hover:text-green-500 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Kontak Kami
             </Link>
 
             {/* Masuk/Daftar in Mobile Menu */}

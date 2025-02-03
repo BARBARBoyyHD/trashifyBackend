@@ -16,8 +16,14 @@ const BlogsContent = () => {
   };
 
   useEffect(() => {
-    dispatch(getBlogs());
-  }, [dispatch]);
+    dispatch(
+      getBlogs((responseStatus) => {
+        if (responseStatus === 401 || responseStatus === 403) {
+          navigate("/pages/login");
+        }
+      })
+    );
+  }, [dispatch, navigate]); // Ensure navigate is included
 
   if (loading) {
     return (
@@ -65,26 +71,25 @@ const BlogsContent = () => {
                   <h2 className="text-2xl font-semibold mb-2 text-gray-800">
                     {item.title}
                   </h2>
-                </Link>
-                <p className="text-sm text-gray-500 mb-4">
-                  By: {item.author_name}
-                </p>
-                {item.image ? (
-                  <img
-                    src={`http://localhost:5000/uploads/${item.image}`}
-                    alt={item.title}
-                    className="w-full h-48 object-cover rounded-lg mb-4"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-300 flex items-center justify-center rounded-lg mb-4">
-                    <p className="text-gray-600">No Image Available</p>
+                  <p className="text-sm text-gray-500 mb-4">
+                    By: {item.author_name}
+                  </p>
+                  {item.image ? (
+                    <img
+                      src={`http://localhost:5000/uploads/${item.image}`}
+                      alt={item.title}
+                      className="w-full h-48 object-cover rounded-lg mb-4"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-300 flex items-center justify-center rounded-lg mb-4">
+                      <p className="text-gray-600">No Image Available</p>
+                    </div>
+                  )}
+                  <p className="text-gray-700 text-sm mb-4">{item.body}</p>
+                  <div className="flex justify-between text-gray-500 text-sm">
+                    <p>Posted: {item.created_at}</p>
                   </div>
-                )}
-                <p className="text-gray-700 text-sm mb-4">{item.body}</p>
-                <div className="flex justify-between text-gray-500 text-sm">
-                  <p>Posted: {item.created_at}</p>
-                  <p>Blog ID: {item.blogs_id}</p>
-                </div>
+                </Link>
               </div>
             </div>
           ))

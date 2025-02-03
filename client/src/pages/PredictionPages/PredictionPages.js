@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Prediction from "../../component/Prediciton/Prediction";
-import NavbarContent from "../../component/Navbar/NavbarContent";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaRecycle } from "react-icons/fa";
+import React from "react";
+import { FaImage, FaRecycle, FaTrashAlt } from "react-icons/fa";
 import { IoNewspaperOutline } from "react-icons/io5";
-import { FaImage } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import NavbarContent from "../../component/Navbar/NavbarContent";
+import Prediction from "../../component/Prediciton/Prediction";
 
-function PredictionPages() {
+const PredictionPages = () => {
   return (
     <div>
       <header>
@@ -25,7 +23,7 @@ function PredictionPages() {
               </div>
             </Link>
 
-            <Link to={"/pages/pages/wastemanagement"}>
+            <Link to={"/pages/waste/management"}>
               <div className="w-[100px] h-[100px] border border-black bg-emerald-500 rounded-[8px] flex justify-center items-center">
                 <FaRecycle className="text-5xl text-white" />
               </div>
@@ -48,6 +46,6 @@ function PredictionPages() {
       </main>
     </div>
   );
-}
+};
 
 export default PredictionPages;

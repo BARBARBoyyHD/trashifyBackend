@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoPersonOutline } from "react-icons/io5";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai"; // Importing menu and close icons
 import TrashifyLogo from "../../assets/TrashifyLogo.png";
+import LogoutButton from "../Button/LogoutButton";
 
 const NavbarContent = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -69,18 +70,7 @@ const NavbarContent = () => {
           >
             Prediksi
           </Link>
-          <Link
-            to="/about"
-            className="text-gray-800 hover:text-green-500 transition-colors"
-          >
-            Tentang Kami
-          </Link>
-          <Link
-            to="/contact"
-            className="text-gray-800 hover:text-green-500 transition-colors"
-          >
-            Kontak Kami
-          </Link>
+
           <Link
             to="/pages/blogs"
             className="text-gray-800 hover:text-green-500 transition-colors"
@@ -95,6 +85,7 @@ const NavbarContent = () => {
           <button onClick={profileButton}>
             <IoPersonOutline className="text-xl text-gray-800" />
           </button>
+          <LogoutButton />
         </div>
       </div>
 
@@ -113,20 +104,7 @@ const NavbarContent = () => {
             >
               Prediksi
             </Link>
-            <Link
-              to="/about"
-              className="text-gray-800 hover:text-green-500 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Tentang Kami
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-800 hover:text-green-500 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Kontak Kami
-            </Link>
+
             <Link
               to="/pages/blogs"
               className="text-gray-800 hover:text-green-500 transition-colors"
@@ -135,19 +113,19 @@ const NavbarContent = () => {
               Blogs
             </Link>
 
-            {/* Masuk/Daftar in Mobile Menu */}
+            {/* Profile Link in Mobile Menu */}
             <Link
               to="/pages/user/profile"
               className="text-gray-800 hover:text-green-500 transition-colors flex gap-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => setIsMenuOpen(false)} // Close menu after clicking a link
             >
               Profile
               <IoPersonOutline className="text-xl text-gray-800 hover:text-green-500" />
             </Link>
-            <div className="hidden lg:flex items-center space-x-2">
-              <button onClick={profileButton}>
-                
-              </button>
+
+            {/* Logout Button in Mobile Menu */}
+            <div className="flex justify-center items-center w-full mt-4">
+              <LogoutButton />
             </div>
           </div>
         </div>

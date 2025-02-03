@@ -4,6 +4,6 @@ const cookieParser = require("cookie-parser");
 const deleteCookiesController = require("../controller/deleteCookiesController");
 const authUser = require("../middleware/authUser");
 
-router.delete("/api/deleteCookies", deleteCookiesController.delete,authUser);
+router.get("/api/deleteCookies", deleteCookiesController.delete,authUser);
 
 module.exports = router

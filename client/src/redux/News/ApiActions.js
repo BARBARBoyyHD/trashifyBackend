@@ -32,7 +32,7 @@ export const getNews = () => {
     axios
       .get("http://localhost:5000/api/news/waste/management")
       .then((response) => {
-        console.log("API Response:", response.data);
+        
         // Dispatch success action with the fetched data
         dispatch(getNewsSuccess(response.data.articles || []));
       })

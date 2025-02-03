@@ -28,7 +28,7 @@ export const singleBlogs = (id) => {
       })
       .then((response) => {
         dispatch(singleBlogsSuccess(response.data));
-        console.log("Fetched Blog Data:", response.data);
+        
       })
       .catch((error) => {
         dispatch(singleBlogsError(error.message));

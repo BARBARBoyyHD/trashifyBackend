@@ -1,8 +1,7 @@
-
-exports.delete = (req,res)=>{
-    res
-    .status(202)
+exports.delete = (req, res) => {
+  res
+    .status(200)
     .clearCookie("accessToken")
     .clearCookie("refreshToken")
-    .send("Cookies have been deleted");
-}
+    .json({ message: "Cookies have been deleted" });
+};

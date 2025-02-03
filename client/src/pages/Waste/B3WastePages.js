@@ -8,7 +8,7 @@ const B3WastePages = () => {
       <header className="fixed top-0 left-0">
         <NavbarContent />
       </header>
-      <main className="w-auto mt-[90px] border border-black">
+      <main className="w-auto mt-[90px]">
         <section>
         <B3Component/>
         </section>

@@ -7,6 +7,7 @@ const Prediction = () => {
   const [model, setModel] = useState(null);
   const [prediction, setPrediction] = useState("");
   const [probability, setProbability] = useState(0);
+  const [accuracy,setAccuracy] = useState(0);
   const [loading, setLoading] = useState(false);
   const resize = 128; // Resize dimensions for the model
 
@@ -56,38 +57,46 @@ const Prediction = () => {
       alert("Please upload an image first.");
       return;
     }
-
+  
     try {
       setLoading(true); // Show spinner immediately
       console.log("Prediction started... Spinner should appear!");
-
+  
+      // Simulate a 3-second delay
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+  
       // Use the ref to access the image element
       const imgElement = imageRef.current;
       if (!imgElement) {
         throw new Error("Image element not found");
       }
-
+  
       const inputTensor = await preprocessImage(imgElement);
       if (!inputTensor) {
         setLoading(false);
         return;
       }
-
+  
       // Perform the prediction directly without delay
       const outputTensor = model.predict(inputTensor);
       const probabilities = outputTensor.dataSync();
-      const predictedClass = probabilities[0] < 0.5 ? "Organic" : "Anorganic";
-
+      console.log("Probabilites : ",probabilities);
+      // Assuming binary classification: If probability > 0.5, class is "Organik", else "Anorganik"
+      const predictedClass = probabilities[0] > 0.5 ? "Anorganik" : "Organik";
+      const predictedProbability = (probabilities[0] * 1).toFixed(2);
+      const accuracyModel = (probabilities.length * 100).toFixed(2);
+  
       setPrediction(predictedClass);
-      setProbability(probabilities[0].toFixed(2));
-      console.log("Prediction finished! Spinner should disappear now.");
+      setProbability(predictedProbability);
+      setAccuracy(accuracyModel);
+      console.log(`Prediction finished! Predicted Class: ${predictedClass}, Probability: ${predictedProbability}%`);
     } catch (error) {
       console.error("Error during prediction:", error);
     } finally {
       setLoading(false); // Ensure spinner hides after the prediction completes
     }
   };
-
+  
   // Handle image upload and display preview
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -149,7 +158,7 @@ const Prediction = () => {
           htmlFor="imageUpload"
           className="w-[100px] h-[50px] rounded-[4px] bg-green-500 hover:bg-green-600 text-white font-bold cursor-pointer"
         >
-          Upload Image
+          Upload Gambar
           <input
             id="imageUpload"
             type="file"
@@ -165,12 +174,12 @@ const Prediction = () => {
           disabled={loading}
           className="w-[100px] h-[50px] bg-green-500 text-white font-semibold rounded-[4px] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all hover:bg-green-600"
         >
-          Predict
+          Prediksi
         </button>
       </div>
 
       {/* Prediction Results */}
-      <div className="mt-3 relative w-full h-36 mb-6 rounded-lg overflow-hidden border border-black">
+      <div className="mt-3 relative w-full h-36 mb-6 rounded-lg overflow-hidden">
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70">
             <LoadingSpinner />
@@ -180,11 +189,18 @@ const Prediction = () => {
             <p className="mb-2">
               <strong>Prediction Result:</strong> {prediction}
             </p>
+            <p className="mb-2">
+              <strong>Class:</strong> {probability}
+            </p>
+            <p className="mb-2">
+              <strong>Accuracy:</strong> {accuracy}%
+            </p>
           </div>
         ) : (
-          <p className="text-center flex justify-center items-center">
-            No Prediction Yet
-          </p>
+          <div className="w-full h-full text-center flex flex-col justify-center items-center">
+            <p>Belum ada prediksi</p>
+            <p>jika class kurang dari 0.5 maka organik jika lebih maka anorganik</p>
+          </div>
         )}
       </div>
     </div>
